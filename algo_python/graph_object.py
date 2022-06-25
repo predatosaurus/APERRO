@@ -9,44 +9,6 @@ class SnowLevel(Enum):
     TEMPETE = 40
 
 
-class ResourcesManager:
-    def __init__(self):
-        self.NB_EMPLOYEE = 3000
-        self.NB_MACHINES = 2200
-
-        if self.NB_EMPLOYEE < self.NB_MACHINES:
-            self.NB_EMPLOYEE = self.NB_MACHINES
-
-        self.free_employee = self.NB_EMPLOYEE
-        self.free_machine = self.NB_MACHINES
-
-    def get_personal_working(self):
-        return self.NB_EMPLOYEE - self.free_employee
-
-    def get_machine_working(self):
-        return self.NB_MACHINES - self.free_machine
-
-    def employ(self, request=1):
-        if self.free_employee >= request > 0:
-            self.free_employee -= request
-
-    def unemploy(self, request=1):
-        if self.free_employee + request <= self.NB_EMPLOYEE and request > 0:
-            self.free_employee += request
-            while self.get_machine_working() > self.get_personal_working():
-                self.unuse_machine()
-
-    def use_machine(self, request=1):
-        if self.free_machine >= request > 0:
-            self.free_machine -= request
-            while self.get_machine_working() > self.get_personal_working():
-                self.employ()
-
-    def unuse_machine(self, request=1):
-        if self.free_machine + request <= self.NB_MACHINES and request > 0:
-            self.free_machine += request
-
-
 class Link:
     def __init__(self, node_start, node_end, distance, important=False, snow_level=None, two_way=True):
         self.node_start_ = node_start
