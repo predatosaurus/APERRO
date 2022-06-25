@@ -75,10 +75,12 @@ class Link:
     def reset(self):
         self.visited = False
 
-    def visit(self, speed=1):
+    def visit(self, speed=1, rec=True):
         self.visited = True
         if speed <= 0:
             speed = 1
+        if self.two_way_ and rec:
+            self.get_end().get_link_opposite(self.get_begin()).visit(speed, False)
         return self.distance_ / speed  # get time to visit de street
 
     def is_visited(self):
@@ -94,7 +96,6 @@ class Link:
         if self.two_way_:
             opposite_link = Link(self.get_end(), self.get_begin(), self.distance_, self.important_, self.snow_level_, True)
             self.get_end().add_link(opposite_link)
-            self.get_begin().add_link(opposite_link)
 
     def show(self):
         print(self.get_begin().name_ + " ---> " + self.get_end().name_)
@@ -161,7 +162,7 @@ class Graph:
     def list_starting_points(self):
         res = []
         for node in self.nodes_:
-            if node.is_pair() is False:
+            if node.is_pair():
                 res.append(node)
         if len(res) == 0:
             res = None
@@ -197,7 +198,7 @@ class Graph:
 
     def link_nodes(self, a, b, distance, important=False, snow_level=None, two_way=True):
         if a < self.nb_nodes_ and b < self.nb_nodes_:
-            new_link = Link(self.nodes_[a], self.nodes_[b], distance, important, snow_level)
+            new_link = Link(self.nodes_[a], self.nodes_[b], distance, important, snow_level, two_way)
             self.nodes_[a].add_link(new_link)
             if two_way:
                 new_link.link_opposite()
