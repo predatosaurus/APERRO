@@ -5,8 +5,8 @@ class ResourcesManager:
     def __init__(self):
         self.NB_EMPLOYEE = 3000
         self.NB_MACHINES = 2200
-        self.PRICE_EMPLOYEE = 100
-        self.PRICE_MACHINE = 400
+        self.PRICE_EMPLOYEE = 20
+        self.PRICE_MACHINE = 10
 
         if self.NB_EMPLOYEE < self.NB_MACHINES:
             self.NB_EMPLOYEE = self.NB_MACHINES
